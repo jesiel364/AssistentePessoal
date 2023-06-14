@@ -3,7 +3,6 @@ import sys
 import speech_recognition as sr 
 import webbrowser as browser
 import urllib.request, json, requests
-import translateimport urllib.request, json, requests
 import translate
 from gtts import gTTS
 from playsound import playsound
@@ -41,6 +40,10 @@ def noticias():
 	noticias = BeautifulSoup(site.text, 'html.parser')
 	for item in noticias.findAll('item')[:5]:
 		mensagem = item.title.text
+		print(mensagem)
+
+noticias()
+
 
 def cotacao(moeda):
 	requisicao = get(f'https://economia.awesomeapi.com.br/all/{moeda}-BRL')
