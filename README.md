@@ -40,12 +40,7 @@ Fala pessoal, essa é a Ana, uma assistente pessoal virtual que escuta os seus c
 
 ### **3. Instale as bibliotecas necessárias pelo terminal, dentro dessa pasta criada:**
 
-* gTTS: `pip install gTTS`
-* playsound: `pip install playsound`
-* beautiful soup 4: `pip install beautifulsoup4`
-* speech recognition: `pip install SpeechRecognition`
-* translate: `pip install translate`
-caso apareça algum erro referente a alguma das bibliotecas importadas no programa, jogue o nome dela no Google e faça a instalação e passo a passo necessários
+* pip install -r requirements.txt
 
 ### **4. Baixe a ferramenta de lembretes:**
 * Acesse o [Notezilla](https://www.conceptworld.com/Notezilla) e faça o download
