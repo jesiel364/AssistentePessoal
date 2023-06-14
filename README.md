@@ -35,8 +35,7 @@ Fala pessoal, essa é a Ana, uma assistente pessoal virtual que escuta os seus c
 
 * Crie uma pasta no seu computador para esse programa, recomendo colocar o nome **Assistente Pessoal**
 * Abra o `git bash` ou `terminal` dentro dessa pasta
-* Copie a [URL](https://github.com/rafaballerini/AssistentePessoal.git) do repositório
-* Digite `git clone <URL copiada>` e pressione `enter`
+* Digite `git clone https://github.com/rafaballerini/AssistentePessoal.git` e pressione `enter`
 
 ### **3. Instale as bibliotecas necessárias pelo terminal, dentro dessa pasta criada:**
 
