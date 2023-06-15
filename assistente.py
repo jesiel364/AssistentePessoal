@@ -168,7 +168,10 @@ def executa_comandos(mensagem):
 		os.system("shutdown -s -t 1800")
 	elif 'cancelar desligamento' in mensagem:
 		cria_audio("horas.mp3", "pt-br", "Desligamento automático do computador cancelado")
-		os.system("shutdown -a")
+		os.system("shutdown -a")	
+	elif 'desligar computador' in mensagem:
+		cria_audio("horas.mp3", "pt-br", "desligando computador")
+		os.system("shutdown /s /t 1")
 
 	# pesquisa no google
 	elif 'pesquisa' in mensagem and 'google' in mensagem or 'como' in mensagem:
