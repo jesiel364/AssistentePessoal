@@ -35,11 +35,17 @@ Fala pessoal, essa é a Ana, uma assistente pessoal virtual que escuta os seus c
 
 * Crie uma pasta no seu computador para esse programa, recomendo colocar o nome **Assistente Pessoal**
 * Abra o `git bash` ou `terminal` dentro dessa pasta
-* Digite `git clone https://github.com/jesiel364/AssistentePessoal.git` e pressione `enter`
+* Copie a [URL](https://github.com/rafaballerini/AssistentePessoal.git) do repositório
+* Digite `git clone <URL copiada>` e pressione `enter`
 
 ### **3. Instale as bibliotecas necessárias pelo terminal, dentro dessa pasta criada:**
 
-* `pip install -r requirements.txt`
+* gTTS: `pip install gTTS`
+* playsound: `pip install playsound`
+* beautiful soup 4: `pip install beautifulsoup4`
+* speech recognition: `pip install SpeechRecognition`
+* translate: `pip install translate`
+caso apareça algum erro referente a alguma das bibliotecas importadas no programa, jogue o nome dela no Google e faça a instalação e passo a passo necessários
 
 ### **4. Baixe a ferramenta de lembretes:**
 * Acesse o [Notezilla](https://www.conceptworld.com/Notezilla) e faça o download

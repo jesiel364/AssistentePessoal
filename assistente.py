@@ -11,28 +11,36 @@ from bs4 import BeautifulSoup
 from requests import get
 from translate import Translator
 
-def cria_audio(audio, mensagem, lang = 'pt-br'):
-	tts = gTTS(mensagem, lang = lang)
+def cria_audio(audio, mensagem):
+
+	tts = gTTS(mensagem, lang = 'pt-br', slow=False)
 	tts.save(audio)
+	print(mensagem)
 	playsound(audio)
-	os.remove(audio)	
+	os.remove(audio)
 
 def monitora_audio():
 	recon = sr.Recognizer()
+	recon.dynamic_energy_threshold = False
 	with sr.Microphone() as source:
 		while True:
-			print('Diga algo, estou te ouvindo')
-			audio = recon.listen(source)
+			# print('Diga algo, estou te ouvindo')
+			audio = recon.listen(source, phrase_time_limit=5)
 			try: 
 				mensagem = recon.recognize_google(audio, language = 'pt-br')
 				mensagem = mensagem.lower()
 				print('Você disse', mensagem)
+				cria_audio("mensagem.mp3", f'{mensagem}?')
 				executa_comandos(mensagem)
 				break
 			except sr.UnknownValueError:
+				frase = "Desculpa, não consegui entender!"
+				print(frase)
+				# cria_audio("mensagem.mp3", frase)
 				pass
 			except sr.RequestError:
-				pass
+				frase = "Desculpa, não consegui entender!"
+				cria_audio("mensagem.mp3", frase)
 		return mensagem
 
 def noticias():
@@ -41,8 +49,8 @@ def noticias():
 	for item in noticias.findAll('item')[:5]:
 		mensagem = item.title.text
 		print(mensagem)
+		cria_audio("noticia.mp3", mensagem)
 
-noticias()
 
 
 def cotacao(moeda):
@@ -87,14 +95,14 @@ def tradutor(traducao):
 		mensagem = monitora_audio()
 		traduzido = traduz.translate(mensagem)
 		cria_audio("traducao.mp3", f"A tradução de {mensagem} é")
-		cria_audio("traducao_eng.mp3", traduzido, lang = 'en')
+		cria_audio("traducao_eng.mp3", traduzido)
 	elif traducao == 'português':
 		traduz = Translator(from_lang="english", to_lang='pt-br')
 		cria_audio("traducao.mp3", "O que você gostaria de traduzir para o português?")
 		mensagem = monitora_audio()
 		traduzido = traduz.translate(mensagem)
 		cria_audio("traducao.mp3", f"A tradução de")
-		cria_audio("traducao_eng.mp3", mensagem, lang = 'en')
+		cria_audio("traducao_eng.mp3", mensagem)
 		cria_audio('traducao_port.mp3', f"é {traduzido}" )
 
 def executa_comandos(mensagem):
@@ -107,7 +115,7 @@ def executa_comandos(mensagem):
 	elif 'horas' in mensagem:
 		hora = datetime.now().strftime('%H:%M')
 		frase = f"Agora são {hora}"
-		cria_audio('horas.mp3', frase)
+		cria_audio("horas.mp3", frase)
 
 	# desligar o computador
 	elif 'desligar computador' in mensagem and 'uma hora' in mensagem:
@@ -118,15 +126,22 @@ def executa_comandos(mensagem):
 		os.system("shutdown -a")
 
 	# pesquisa no google
-	elif 'pesquisar' in mensagem and 'google' in mensagem:
+	elif 'pesquisa' in mensagem and 'google' in mensagem:
+		print(mensagem)
 		mensagem = mensagem.replace('pesquisar', '')
+		mensagem = mensagem.replace('pesquisa', '')
 		mensagem = mensagem.replace('google', '')
+		mensagem = mensagem.replace('no', '')
+		cria_audio("mensagem.mp3", f'Pesquisando {mensagem}')
 		browser.open(f'https://google.com/search?q={mensagem}')
 
 	# pesquisa no youtube
-	elif 'pesquisar' in mensagem and 'youtube' in mensagem:
+	elif 'pesquisa' in mensagem and 'youtube' in mensagem:
 		mensagem = mensagem.replace('pesquisar', '')
+		mensagem = mensagem.replace('pesquisa', '')
 		mensagem = mensagem.replace('youtube', '')
+		mensagem = mensagem.replace('no', '')
+		cria_audio("mensagem.mp3", f'Pesquisando no youtube {mensagem}')
 		browser.open(f'https://youtube.com/results?search_query={mensagem}')
 
 	# spotify
@@ -172,6 +187,7 @@ def executa_comandos(mensagem):
 	# abrir programas do computador
 	elif 'abrir' in mensagem and 'google chrome' in mensagem:
 		os.startfile("<caminho para google chrome na sua máquina>")
+		cria_audio("mensagem.mp3", mensagem)
 	elif 'abrir' in mensagem and 'visual studio' in mensagem:
 		os.startfile("<caminho para visual studio na sua máquina>")
 	elif 'abrir' in mensagem and 'visual studio code' in mensagem:
@@ -195,8 +211,15 @@ def executa_comandos(mensagem):
 	elif 'mostrar' in mensagem and 'lembrete' in mensagem:
 		os.system('c: && cd C:/Program Files/Conceptworld/Notezilla && Notezilla.exe /BringNotesOnTop')
 
+	elif 'comandos' in mensagem:
+		lista = ["Que horas são?", "Pesquisar objeto no Google", "Qual a cotação do dólar no momento?", "Quais as últimas notícias?",  "Quais os filmes mais populares no momento?", "Qual a melhor música do mundo?",  "Clima em São Paulo", "Traduzir para o inglês",  "Criar novo lembrete ou Visualizar lembretes", "Abrir Programa", "Desligar computador em uma hora", "Cancelar desligamento", "Fechar assistente"]
+		cria_audio("mensagem.mp3", 'Estes são os comandos que poderá utilizar: ')
+		for item in lista:
+			print(item)
+			cria_audio('comando.mp3', item)
 def main():
-	cria_audio("ola.mp3", "Olá sou a Ana, sua assistente virtual! Como posso ajudar?")
+	cria_audio("ola.mp3", "O que cê manda?")
+	# cria_audio("ola.mp3", "Olá sou a Ana, sua assistente virtual! Como posso ajudar?")
 	while True:
 		monitora_audio()
 

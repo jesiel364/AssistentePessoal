@@ -6,4 +6,4 @@ with sr.Microphone() as source:
 	print('Diga algo familia')
 	audio = recon.listen(source)
 
-print(recon.recognize_google(audio, language = 'pt'))
+print(recon.recognize_google(audio, language = 'pt-br'))
