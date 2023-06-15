@@ -19,6 +19,10 @@ def cria_audio(audio, mensagem):
 	playsound(audio)
 	os.remove(audio)
 
+def digitar():
+	res = input("Digite algo: ")
+	executa_comandos(res)
+
 def monitora_audio():
 	recon = sr.Recognizer()
 	recon.dynamic_energy_threshold = False
@@ -105,10 +109,48 @@ def tradutor(traducao):
 		cria_audio("traducao_eng.mp3", mensagem)
 		cria_audio('traducao_port.mp3', f"é {traduzido}" )
 
+def getResultadosGoogle(pesquisa):
+	res = []
+	site = get(f'https://google.com/search?q={pesquisa}')
+	pagina = BeautifulSoup(site.text, 'html.parser')
+	for item in pagina.find_all( 'span' ):
+		res.append(item)
+
+	# cria_audio("resultados.mp3", res[0])
+	for i in res:
+		print(i.getText())
+
+def dicionario(pesquisa):
+	res = []
+	site = get(f'https://pt.wiktionary.org/wiki/{pesquisa}')
+	pagina = BeautifulSoup(site.text, 'html.parser')
+	for item in pagina.find_all( 'ol' ):
+		res.append(item.getText())
+
+	if res:
+		cria_audio("significado.mp3", res[0])
+	else:
+		cria_audio('alerta.mp3', f'Nenhum resultado para {pesquisa}')
+
+def wikipedia(pesquisa):
+	res = []
+	site = get(f'https://pt.wikipedia.org/wiki/{pesquisa}')
+	pagina = BeautifulSoup(site.text, 'html.parser')
+	for item in pagina.find_all( 'p' ):
+		res.append(item.getText())
+
+	if res:
+		cria_audio("significado.mp3", f"{res[0]}")
+	else:
+		cria_audio('alerta.mp3', f'Nenhum resultado para {pesquisa}')
+
+lista_de_comandos = ["Que horas são?", "Pesquisar objeto no Google", "Qual a cotação do dólar no momento?", "Quais as últimas notícias?",  "Quais os filmes mais populares no momento?", "Qual a melhor música do mundo?",  "Clima em São Paulo", "Traduzir para o inglês",  "Criar novo lembrete ou Visualizar lembretes", "Abrir Programa", "Desligar computador em uma hora", "Cancelar desligamento", "Fechar assistente"]
+
 def executa_comandos(mensagem):
 
 	# fechar assistente
 	if 'fechar assistente' in mensagem:
+		cria_audio("alerta.mp3", "Fechando assistente")
 		sys.exit()
 
 	# hora atual
@@ -126,7 +168,7 @@ def executa_comandos(mensagem):
 		os.system("shutdown -a")
 
 	# pesquisa no google
-	elif 'pesquisa' in mensagem and 'google' in mensagem:
+	elif 'pesquisa' in mensagem and 'google' in mensagem or 'como' in mensagem:
 		print(mensagem)
 		mensagem = mensagem.replace('pesquisar', '')
 		mensagem = mensagem.replace('pesquisa', '')
@@ -134,6 +176,9 @@ def executa_comandos(mensagem):
 		mensagem = mensagem.replace('no', '')
 		cria_audio("mensagem.mp3", f'Pesquisando {mensagem}')
 		browser.open(f'https://google.com/search?q={mensagem}')
+		
+
+
 
 	# pesquisa no youtube
 	elif 'pesquisa' in mensagem and 'youtube' in mensagem:
@@ -211,16 +256,35 @@ def executa_comandos(mensagem):
 	elif 'mostrar' in mensagem and 'lembrete' in mensagem:
 		os.system('c: && cd C:/Program Files/Conceptworld/Notezilla && Notezilla.exe /BringNotesOnTop')
 
+
+	#listar comandos
 	elif 'comandos' in mensagem:
-		lista = ["Que horas são?", "Pesquisar objeto no Google", "Qual a cotação do dólar no momento?", "Quais as últimas notícias?",  "Quais os filmes mais populares no momento?", "Qual a melhor música do mundo?",  "Clima em São Paulo", "Traduzir para o inglês",  "Criar novo lembrete ou Visualizar lembretes", "Abrir Programa", "Desligar computador em uma hora", "Cancelar desligamento", "Fechar assistente"]
 		cria_audio("mensagem.mp3", 'Estes são os comandos que poderá utilizar: ')
-		for item in lista:
-			print(item)
+		for item in lista_de_comandos:
 			cria_audio('comando.mp3', item)
+
+	#dicionario
+	elif 'significa' in mensagem or 'o que é' in mensagem:
+		mensagem = mensagem.replace('significa', '')
+		mensagem = mensagem.replace('wikipedia', '')
+		mensagem = mensagem.replace('o que é', '')
+		dicionario(mensagem)
+
+	#wikipedia
+	elif 'wikipedia' in mensagem or 'pesquisar na wikipedia' in mensagem:
+		mensagem = mensagem.replace('wikipedia', '')
+		mensagem = mensagem.replace('pesquisar na', '')
+		wikipedia(mensagem)
+
+
 def main():
 	cria_audio("ola.mp3", "O que cê manda?")
+	for item in lista_de_comandos:
+		print(item)
 	# cria_audio("ola.mp3", "Olá sou a Ana, sua assistente virtual! Como posso ajudar?")
 	while True:
-		monitora_audio()
+		# monitora_audio()
+		digitar()
+
 
 main()
