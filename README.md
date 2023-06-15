@@ -16,6 +16,9 @@ Fala pessoal, essa é a Ana, uma assistente pessoal virtual que escuta os seus c
 * **💤 Desligar computador em 1 hora ou meia hora:** "Desligar computador em uma hora"<br>
 * **❌ Cancelar desligamento do computador:** "Cancelar desligamento"<br>
 * **🙋🏽‍♀️ Fechar a assistente:** "Fechar assistente"
+* **❓ Mostrar todos os comandos:** "Mostrar comandos"
+* **📗 Pesquisar significado no Wikicionário:** "O que significa négócio"
+* **📗 Pesquisar na Wikipédia:** "pesquisar na wikipedia Python"
 
 ## Tecnologias utilizadas:
 
@@ -31,12 +34,12 @@ Fala pessoal, essa é a Ana, uma assistente pessoal virtual que escuta os seus c
 
 ### **1. Instale `Python` na sua máquina, por meio [deste link](https://www.python.org/)**
 
-### **2. Faça um clone [desse repositório](https://github.com/rafaballerini/AssistentePessoal.git) na sua máquina:**
+### **2. Faça um clone [desse repositório](https://github.com/jesiel364/AssistentePessoal.git) na sua máquina:**
 
 * Crie uma pasta no seu computador para esse programa, recomendo colocar o nome **Assistente Pessoal**
 * Abra o `git bash` ou `terminal` dentro dessa pasta
 * Copie a [URL](https://github.com/rafaballerini/AssistentePessoal.git) do repositório
-* Digite `git clone <URL copiada>` e pressione `enter`
+* Digite `[git clone <URL copiada>](https://github.com/jesiel364/AssistentePessoal.git)` e pressione `enter`
 
 ### **3. Instale as bibliotecas necessárias pelo terminal, dentro dessa pasta criada:**
 
